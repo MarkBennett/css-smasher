@@ -1,0 +1,14 @@
+{
+  "name": "css-smasher",
+  "description": "Compress and minimize your CSS.",
+  "version": "0.0.0",
+  "homepage": "https://github.com/MarkBennett/css-smasher",
+  "repository": "git://github.com/MarkBennett/css-smasher.git",
+  "author": "Mark Bennett <mark@burmis.ca> (http://burmis.ca)",
+  "directories": {
+    "lib": "."
+  },
+  "engines": {
+    "node": "*"
+  }
+}
