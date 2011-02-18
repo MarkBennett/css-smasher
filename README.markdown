@@ -1,12 +1,15 @@
-=CSS Masher
+CSS Masher
+===========
 
 css-masher will analyse your css and remove unnecassary elements like comments and whitespace, without modify the meaning of your stylesheets.
 
-=Requirements
+Requirements
+-------------
 
 css-masher.js can be used in your application on it's own. You need nodejs installed to run it from the command-line.
 
-=Usage
+Usage
+-------
 
 css-masher runs from the command-line
 
