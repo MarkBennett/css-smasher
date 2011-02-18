@@ -1,0 +1,10 @@
+TODO
+======
+* Get Jasmine unit tests running
+
+
+Defferred
+----------
+
+* Integrate https://github.com/mhevery/jasmine-node
+* Integrate https://github.com/mde/node-jake
