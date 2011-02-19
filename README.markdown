@@ -18,3 +18,15 @@ css-masher runs from the command-line
 The css is written to stdout, so you may want to pipe it into a file:
 
     bin/css-masher input.css > output.css
+
+Running the tests
+------------------
+
+To run the tests you'll need to install the test dependencies:
+
+    npm install jasmine-node
+    npm install jake
+
+You can run the tests using jake:
+
+    jake test
