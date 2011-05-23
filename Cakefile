@@ -11,3 +11,6 @@ task 'spec', 'Run the project specifications', (options) ->
 
 task 'build:watch', 'Build and then watch the CoffeeScript for changes', (options) ->
   to_stdio spawn 'coffee', ['-w', '-c', 'lib']
+
+task 'build:parser', 'Build the parser from jison definition', (options) ->
+  to_stdio spawn 'jison', ['lib/parser.jison', '-o', 'lib/parser.js']
