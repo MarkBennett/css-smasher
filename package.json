@@ -10,5 +10,6 @@
   },
   "engines": {
     "node": "*"
-  }
+  },
+  "main" : "./lib/css.js"
 }
