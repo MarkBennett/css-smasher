@@ -1,2 +1,0 @@
-* Integrate https://github.com/mhevery/jasmine-node
-* Integrate https://github.com/mde/node-jake
