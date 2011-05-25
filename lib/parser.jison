@@ -4,22 +4,32 @@
 %lex
 
 %%
+\s+				/* skip whitespace */
 \/\*[^*]*\*+([^/*][^*]*\*+)*\/	return 'COMMENT';
+[_a-z0-9-]*			return 'IDENT';
+"{"				return '{';
+"}"				return '}';
+[\n]*				return 'S';
 <<EOF>>				return 'EOF';
 
 /lex
 
 /* operator association and precedence */
 
-%start expressions
+%start stylesheet
 
 %% /* language grammar */
-expressions
-  : e EOF
-      { console.log($1); return $1; }
+stylesheet
+  : [ [ comment | ruleset ] S* ]* EOF
+      { console.log($1); }
   ;
 
-e
+comment
   : COMMENT
-      { $$ = "COMMENT: " + $1; }
+      { yy.addComment($1); return $1; }
+  ;
+
+ruleset
+  : IDENT '{' IDENT '}'
+      { var val = "" + $1 + " " + $2; yy.addRule(val); return val; }
   ;
