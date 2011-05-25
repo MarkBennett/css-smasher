@@ -25,6 +25,11 @@ stylesheet
   ;
 
 ruleset
-  : IDENT S '{' S IDENT ':' IDENT ';' S '}'
-      { var val = "" + $1 + " { " + $5 + ":" + $7 + "; }"; yy.addRule(val); return val; }
+  : IDENT S '{' S declaration ';' S '}'
+      { var val = "" + $1 + " { " + $5 + "; }"; console.log("ruleset = " + val); yy.addRule(val); return val; }
   ;
+
+declaration
+  : IDENT ':' IDENT
+      { var val =$1 + ":" + $3; console.log("decleration = " + val); $$ = val; }
+  ; 
