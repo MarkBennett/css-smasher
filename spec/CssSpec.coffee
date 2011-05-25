@@ -7,16 +7,10 @@ describe "CSS.smash()", ->
 
     expect(css.smash(raw)).toEqual(smashed)
 
-#  it "should remote unneccesary whitespace", ->
-#    raw = "p { color: black; }"
-#    smashed = "p{color:black;}"
-#
-#    expect(css.smash(raw)).toEqual(smashed)
-
 describe "CSS.parse()", ->
   it "should parse a ruleset", ->
-    raw = "p { b }"
+    raw = "p { text:black; }"
     stylesheet = new css.Stylesheet
-    stylesheet.addRule("p { b } ")
+    stylesheet.addRule("p { text:black; }")
 
     expect(css.parse(raw).lines).toEqual(stylesheet.lines)
