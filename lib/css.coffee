@@ -10,10 +10,8 @@ exports.smash = smash
 class Stylesheet
   constructor: ->
     @lines = []
-  addComment: (raw) ->
-    @lines.push raw
-  addRule: (ruleset) ->
-    @lines.push ruleset
+  addLine: (line) ->
+    @lines.push line
   lines: ->
     @lines
 exports.Stylesheet = Stylesheet

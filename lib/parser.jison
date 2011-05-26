@@ -4,9 +4,9 @@
 %lex
 
 %%
+\s+					/* ignore whitespace */
 [_a-z0-9-]+				{ return 'IDENT'; }
 \/\*[^*]*\*\/				{ return 'COMMENT'; }
-[ \n]+					{ return 'S'; }
 "{"                             	%{ return '{'; %}
 "}"                             	%{ return '}'; %}
 ":"                             	{ return ':'; }
@@ -21,8 +21,15 @@
 
 %% /* language grammar */
 stylesheet
-  : line* EOF
-      { var stylesheet = new yy.Stylesheet(); stylesheet.addRule($1); $$ = stylesheet; return stylesheet; }
+  : style EOF
+      { var stylesheet = new yy.Stylesheet(); stylesheet.lines = $1; return stylesheet; }
+  ;
+
+style
+  : line
+      { $$ = [ $1 ]; }
+  | style line
+      { var style = $1; style.push($2); $$ = style; }
   ;
 
 line
@@ -33,8 +40,8 @@ line
   ;
 
 ruleset
-  : IDENT S '{' S declaration S '}'
-      { $$ = new yy.Ruleset($1, $5); }
+  : IDENT '{' declaration '}'
+      { $$ = new yy.Ruleset($1, $3); }
   ;
 
 declaration
