@@ -12,17 +12,22 @@ class Stylesheet
     @lines = []
   addComment: (raw) ->
     @lines.push raw
-  addRule: (raw) ->
-    @lines.push raw
+  addRule: (ruleset) ->
+    @lines.push ruleset
   lines: ->
     @lines
 exports.Stylesheet = Stylesheet
 
+class Ruleset
+  constructor: (selector, declerations) ->
+    @selector = selector
+    @declerations = declerations
+exports.Ruleset = Ruleset
+
 parse = (raw) ->
-  stylesheet = new Stylesheet
-  parser.yy = stylesheet
+  parser.yy.Stylesheet = Stylesheet
+  parser.yy.Ruleset = Ruleset
   parser.parse(raw)
-  stylesheet
 
 exports.parse = parse
 exports.parser = parser

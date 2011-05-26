@@ -21,15 +21,15 @@
 %% /* language grammar */
 stylesheet
   : [ ruleset S* ]* EOF
-      { console.log($1); }
+      { var stylesheet = new yy.Stylesheet(); stylesheet.addRule($1); $$ = stylesheet; return stylesheet; }
   ;
 
 ruleset
-  : IDENT S '{' S declaration ';' S '}'
-      { var val = "" + $1 + " { " + $5 + "; }"; console.log("ruleset = " + val); yy.addRule(val); return val; }
+  : IDENT S '{' S declaration S '}'
+      { var ruleset = new yy.Ruleset($1, $5); $$ = ruleset; }
   ;
 
 declaration
-  : IDENT ':' IDENT
-      { var val =$1 + ":" + $3; console.log("decleration = " + val); $$ = val; }
+  : IDENT ':' IDENT ';'
+      { $$ = $1 + ":" + $3 + ';'; }
   ; 

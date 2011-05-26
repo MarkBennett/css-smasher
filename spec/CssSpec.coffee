@@ -9,8 +9,8 @@ describe "CSS.smash()", ->
 
 describe "CSS.parse()", ->
   it "should parse a ruleset", ->
-    raw = "p { text:black; }"
+    raw = "p { text:black; } "
     stylesheet = new css.Stylesheet
-    stylesheet.addRule("p { text:black; }")
+    stylesheet.addRule(new css.Ruleset("p", "text:black;"))
 
     expect(css.parse(raw).lines).toEqual(stylesheet.lines)
