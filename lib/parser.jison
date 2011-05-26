@@ -40,8 +40,15 @@ line
   ;
 
 ruleset
-  : IDENT '{' declaration '}'
+  : IDENT '{' declarations '}'
       { $$ = new yy.Ruleset($1, $3); }
+  ;
+
+declarations
+  : declaration
+    { $$ = [ $1 ]; }
+  | declarations declaration
+    { var declerations = $1; declerations.push($2); $$ = declerations; }
   ;
 
 declaration
