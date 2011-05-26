@@ -4,13 +4,14 @@
 %lex
 
 %%
-[_a-z0-9-]+			{ return 'IDENT'; }
-[ \n]+				{ return 'S'; }
-"{"                             %{ return '{'; %}
-"}"                             %{ return '}'; %}
-":"                             { return ':'; }
-";"                             { return ';'; }
-<<EOF>>				{ return 'EOF'; }
+[_a-z0-9-]+				{ return 'IDENT'; }
+\/\*[^*]*\*\/				{ return 'COMMENT'; }
+[ \n]+					{ return 'S'; }
+"{"                             	%{ return '{'; %}
+"}"                             	%{ return '}'; %}
+":"                             	{ return ':'; }
+";"                             	{ return ';'; }
+<<EOF>>					{ return 'EOF'; }
 
 /lex
 
@@ -20,16 +21,28 @@
 
 %% /* language grammar */
 stylesheet
-  : [ ruleset ]* EOF
+  : line* EOF
       { var stylesheet = new yy.Stylesheet(); stylesheet.addRule($1); $$ = stylesheet; return stylesheet; }
+  ;
+
+line
+  : ruleset
+    { $$ = $1; }
+  | comment
+    { $$ = $1; }
   ;
 
 ruleset
   : IDENT S '{' S declaration S '}'
-      { var ruleset = new yy.Ruleset($1, $5); $$ = ruleset; }
+      { $$ = new yy.Ruleset($1, $5); }
   ;
 
 declaration
   : IDENT ':' IDENT ';'
       { $$ = $1 + ":" + $3 + ';'; }
-  ; 
+  ;
+
+comment
+  : COMMENT
+      { $$ = new yy.Comment($1); }
+  ;
