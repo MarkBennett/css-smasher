@@ -8,8 +8,8 @@
 [ \n]+				{ return 'S'; }
 "{"                             %{ return '{'; %}
 "}"                             %{ return '}'; %}
-":"                             %{ return ':'; %}
-";"                             %{ return ';'; %}
+":"                             { return ':'; }
+";"                             { return ';'; }
 <<EOF>>				{ return 'EOF'; }
 
 /lex
