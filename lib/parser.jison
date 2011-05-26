@@ -20,7 +20,7 @@
 
 %% /* language grammar */
 stylesheet
-  : [ ruleset S* ]* EOF
+  : [ ruleset ]* EOF
       { var stylesheet = new yy.Stylesheet(); stylesheet.addRule($1); $$ = stylesheet; return stylesheet; }
   ;
 
