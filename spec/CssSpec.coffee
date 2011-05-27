@@ -18,6 +18,20 @@ describe "CSS.parse()", ->
 
     expect(css.parse(raw).lines).toEqual(stylesheet.lines)
 
+  it "should parse rulesets with extra whitespace in declerations", ->
+    raw ="p { text : black; }"
+    stylesheet = new Stylesheet
+    stylesheet.addLine(new Ruleset("p", ["text:black;"]))
+
+    expect(css.parse(raw).lines).toEqual(stylesheet.lines)
+
+  it "should parse rulesets without a semi-colon after the decleration", ->
+    raw ="p { text : black }"
+    stylesheet = new Stylesheet
+    stylesheet.addLine(new Ruleset("p", ["text:black;"]))
+
+    expect(css.parse(raw).lines).toEqual(stylesheet.lines)
+
   it "should parse a ruleset with multiple declerations", ->
     raw = "p { text:black; align:center; }"
     stylesheet = new Stylesheet

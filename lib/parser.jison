@@ -58,6 +58,8 @@ declarations
 declaration
   : IDENT ':' IDENT ';'
       { $$ = $1 + ":" + $3 + ';'; }
+  | IDENT ':' IDENT
+      { $$ = $1 + ":" + $3 + ';'; }
   ;
 
 comment
