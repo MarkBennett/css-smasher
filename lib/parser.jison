@@ -44,8 +44,13 @@ line
   ;
 
 ruleset
-  : IDENT '{' declarations '}'
-      { $$ = new yy.Ruleset($1, $3); }
+  : selector '{' declarations '}'
+    { $$ = new yy.Ruleset($1, $3); }
+  ;
+
+selector
+  : IDENT
+    { $$ = $1; }
   ;
 
 declarations
