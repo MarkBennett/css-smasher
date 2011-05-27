@@ -22,7 +22,11 @@
 %% /* language grammar */
 stylesheet
   : style EOF
-      { var stylesheet = new yy.Stylesheet(); stylesheet.lines = $1; return stylesheet; }
+      {
+        var stylesheet = new yy.Stylesheet();
+        stylesheet.lines = $1;
+        return stylesheet;
+      }
   ;
 
 style
