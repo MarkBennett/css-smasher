@@ -12,6 +12,7 @@
 ":"                             	{ return ':'; }
 ";"                             	{ return ';'; }
 ","                             	{ return ','; }
+"."                             	{ return '.'; }
 <<EOF>>					{ return 'EOF'; }
 
 /lex
@@ -56,8 +57,20 @@ selectors
     { var selectors = $1; $1.push($3); $$ = selectors; }
   ;
 
-selector
+tag_name
   : IDENT
+    { $$ = $1; }
+  ;
+
+class_name
+  : '.' IDENT
+    { $$ = "." + $2; }
+  ;
+
+selector
+  : tag_name
+    { $$ = $1; }
+  | class_name
     { $$ = $1; }
   ;
 

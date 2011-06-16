@@ -53,6 +53,13 @@ describe "CSS.parse()", ->
 
     expect(css.parse(raw).lines).toEqual(stylesheet.lines)
 
+  it "should parse a ruleset with a class selector", ->
+    raw = ".class { test: val; }"
+    stylesheet = new Stylesheet
+    stylesheet.addLine(new Ruleset([".class"], ["test:val;"]))
+
+    expect(css.parse(raw).lines).toEqual(stylesheet.lines)
+
   it "should parse a comment", ->
     raw = "/* Blah */"
     stylesheet = new Stylesheet
