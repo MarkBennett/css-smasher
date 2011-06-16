@@ -39,6 +39,13 @@ describe "CSS.parse()", ->
 
     expect(css.parse(raw).lines).toEqual(stylesheet.lines)
 
+  it "should parse a ruleset with multiple selectors", ->
+    raw = "h1, h2, h3 { font-family: awesome; }"
+    stylesheet = new Stylesheet
+    stylesheet.addLine(new Ruleset(["h1","h2","h3"], ["font-family:awesome;"]))
+
+    expect(css.parse(raw).lines).toEqual(stylesheet.lines)
+
   it "should parse a comment", ->
     raw = "/* Blah */"
     stylesheet = new Stylesheet
