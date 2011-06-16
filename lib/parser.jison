@@ -73,13 +73,20 @@ id_selector
     { $$ = "#" + $2; }
   ;
 
-selector
+selector_component
   : tag_name
     { $$ = $1; }
   | class_name
     { $$ = $1; }
   | id_selector
     { $$ = $1; }
+  ;
+
+selector
+  : selector_component
+    { $$ = $1; }
+  | selector selector_component
+    { $$ = $1 + $2 }
   ;
 
 declarations
