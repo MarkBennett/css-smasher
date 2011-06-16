@@ -60,6 +60,13 @@ describe "CSS.parse()", ->
 
     expect(css.parse(raw).lines).toEqual(stylesheet.lines)
 
+  it "should parse a ruleset with an id selector", ->
+    raw = "#myid { dec: val; }"
+    stylesheet = new Stylesheet
+    stylesheet.addLine(new Ruleset(["#myid"], ["dec:val;"]))
+
+    expect(css.parse(raw).lines).toEqual(stylesheet.lines)
+
   it "should parse a comment", ->
     raw = "/* Blah */"
     stylesheet = new Stylesheet

@@ -13,6 +13,7 @@
 ";"                             	{ return ';'; }
 ","                             	{ return ','; }
 "."                             	{ return '.'; }
+"#"                             	{ return '#'; }
 <<EOF>>					{ return 'EOF'; }
 
 /lex
@@ -67,10 +68,17 @@ class_name
     { $$ = "." + $2; }
   ;
 
+id_selector
+  : '#' IDENT
+    { $$ = "#" + $2; }
+  ;
+
 selector
   : tag_name
     { $$ = $1; }
   | class_name
+    { $$ = $1; }
+  | id_selector
     { $$ = $1; }
   ;
 
