@@ -5,7 +5,7 @@
 
 %%
 \s+					/* ignore whitespace */
-[_a-z0-9-]+				{ return 'IDENT'; }
+[_a-zA-Z0-9-]+				{ return 'IDENT'; }
 \/\*[^*]*\*\/				{ return 'COMMENT'; }
 "{"                             	%{ return '{'; %}
 "}"                             	%{ return '}'; %}
