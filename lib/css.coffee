@@ -17,9 +17,9 @@ class Stylesheet
 exports.Stylesheet = Stylesheet
 
 class Ruleset
-  constructor: (selectors, declerations) ->
+  constructor: (selectors, declarations) ->
     @selectors = selectors
-    @declerations = declerations
+    @declarations = declarations
 exports.Ruleset = Ruleset
 
 class Comment

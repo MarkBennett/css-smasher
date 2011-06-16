@@ -68,10 +68,17 @@ declarations
     { var declerations = $1; declerations.push($2); $$ = declerations; }
   ;
 
+declaration_values
+  : IDENT
+    { $$ = [ $1 ]; }
+  | declaration_values ',' IDENT
+    { var vals = $1; $1.push($3); $$ = vals; }
+  ;
+
 declaration
-  : IDENT ':' IDENT ';'
+  : IDENT ':' declaration_values ';'
       { $$ = $1 + ":" + $3 + ';'; }
-  | IDENT ':' IDENT
+  | IDENT ':' declaration_values 
       { $$ = $1 + ":" + $3 + ';'; }
   ;
 
