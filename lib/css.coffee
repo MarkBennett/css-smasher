@@ -17,8 +17,8 @@ class Stylesheet
 exports.Stylesheet = Stylesheet
 
 class Ruleset
-  constructor: (selector, declerations) ->
-    @selector = selector
+  constructor: (selectors, declerations) ->
+    @selectors = selectors
     @declerations = declerations
 exports.Ruleset = Ruleset
 

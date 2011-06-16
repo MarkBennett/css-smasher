@@ -44,8 +44,15 @@ line
   ;
 
 ruleset
-  : selector '{' declarations '}'
+  : selectors '{' declarations '}'
     { $$ = new yy.Ruleset($1, $3); }
+  ;
+
+selectors
+  : selector
+    { $$ = [ $1 ]; }
+  | selectors ',' selector
+    { var selectors = $1; $1.push($3); $$ = selectors; }
   ;
 
 selector
