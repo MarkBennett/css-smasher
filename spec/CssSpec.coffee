@@ -81,6 +81,13 @@ describe "CSS.parse()", ->
 
     expect(css.parse(raw).lines).toEqual(stylesheet.lines)
 
+  it "should parse a ruleset with an id name containing all possible characters", ->
+    raw = "#abcdefghijklmnopqrstuvwyxzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_- { test: val; }"
+    stylesheet = new Stylesheet
+    stylesheet.addLine(new Ruleset(["#abcdefghijklmnopqrstuvwyxzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-"], ["test:val;"]))
+
+    expect(css.parse(raw).lines).toEqual(stylesheet.lines)
+
   it "should parse a comment", ->
     raw = "/* Blah */"
     stylesheet = new Stylesheet
