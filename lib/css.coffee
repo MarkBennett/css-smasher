@@ -1,13 +1,15 @@
 parser = require('./parser').parser
 
-smash = (raw) ->
-  comment = /^\/\*.*\*\//
-  blank_line = /^\s*$/
+_comment = /^\/\*.*\*\//
+_blank_line = /\n+/
 
-  lines = raw.split("\n")
+smash = (raw) ->
+
+  lines = raw.replace(_blank_line, "\n")
+  lines = lines.split("\n")
   results = []
   for line in lines
-    if comment.test(line) or blank_line.test(line)
+    if _comment.test(line)
       continue
     results.push(line)
   results.join("\n")
