@@ -10,6 +10,12 @@ describe "CSS.smash()", ->
 
     expect(css.smash(raw)).toEqual(smashed)
 
+  it "should remove extra lines breaks", ->
+    raw = "p { font-color: red; }\n\n\nh1 { text-decoration: none; }"
+    smashed = "p { font-color: red; }\nh1 { text-decoration: none; }"
+
+    expect(css.smash(raw)).toEqual(smashed)
+
 describe "CSS.parse()", ->
   it "should parse a ruleset", ->
     raw = "p { text:black; }"

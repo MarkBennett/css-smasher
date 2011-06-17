@@ -2,8 +2,14 @@ parser = require('./parser').parser
 
 smash = (raw) ->
   comment = /^\/\*.*\*\//
+  blank_line = /^\s*$/
+
   lines = raw.split("\n")
-  results = (line for line in lines when !comment.test(line))
+  results = []
+  for line in lines
+    if comment.test(line) or blank_line.test(line)
+      continue
+    results.push(line)
   results.join("\n")
 exports.smash = smash
 
