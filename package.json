@@ -1,15 +1,27 @@
 {
   "name": "css-smasher",
-  "description": "Compress and minimize your CSS.",
-  "version": "0.0.0",
+  "description": "Minimize the size of your CSS without changing it's meaning.",
+  "keywords": "css,minify,compress,minimize",
+  "version": "0.0.1",
   "homepage": "https://github.com/MarkBennett/css-smasher",
-  "repository": "git://github.com/MarkBennett/css-smasher.git",
-  "author": "Mark Bennett <mark@burmis.ca> (http://burmis.ca)",
-  "directories": {
-    "lib": "."
+  "repository": {
+    "type":"git",
+    "url":"git://github.com/MarkBennett/css-smasher.git"
+  },
+  "author": {
+    "name":  "Mark Bennett",
+    "email": "mark@burmis.ca",
+    "url": "http://github.com/MarkBennett"
+  },
+  "main" : "./lib/css.js",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "jasmine-node":">=1.0.6",
+    "coffee-script":">=1.1.1",
+    "jison":">=0.2.9"
   },
   "engines": {
-    "node": "*"
-  },
-  "main" : "./lib/css.js"
+    "node": ">=0.4.8"
+  }
 }
