@@ -16,6 +16,12 @@ describe "CSS.smash()", ->
 
     expect(css.smash(raw)).toEqual(smashed)
 
+  it "should remove extra spaces", ->
+    raw = "p              {       background:      blue;       }"
+    smashed = "p { background: blue; }"
+
+    expect(css.smash(raw)).toEqual(smashed)
+
 describe "CSS.parse()", ->
   it "should parse a ruleset", ->
     raw = "p { text:black; }"

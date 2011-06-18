@@ -2,10 +2,12 @@ parser = require('./parser').parser
 
 _comment = /^\/\*.*\*\//
 _blank_line = /\n+/
+_multi_spaces = /\ +/g
 
 smash = (raw) ->
 
   lines = raw.replace(_blank_line, "\n")
+  lines = lines.replace(_multi_spaces, " ")
   lines = lines.split("\n")
   results = []
   for line in lines
