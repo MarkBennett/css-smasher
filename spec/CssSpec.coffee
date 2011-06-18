@@ -11,8 +11,8 @@ describe "CSS.smash()", ->
     expect(css.smash(raw)).toEqual(smashed)
 
   it "should remove extra lines breaks", ->
-    raw = "p { font-color: red; }\n\n\nh1 { text-decoration: none; }"
-    smashed = "p { font-color: red; }\nh1 { text-decoration: none; }"
+    raw = "p { font-color: red; }\n\n\nh1 { text-decoration: none; }\n\n.my-class { position: absolute: left: 0; }"
+    smashed = "p { font-color: red; }\nh1 { text-decoration: none; }\n.my-class { position: absolute: left: 0; }"
 
     expect(css.smash(raw)).toEqual(smashed)
 

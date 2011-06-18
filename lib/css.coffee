@@ -1,7 +1,7 @@
 parser = require('./parser').parser
 
 _comment = /^\/\*.*\*\//
-_blank_line = /\n+/
+_blank_line = /\n+/g
 _multi_spaces = /\ +/g
 
 smash = (raw) ->
