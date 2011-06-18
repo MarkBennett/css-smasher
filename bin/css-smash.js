@@ -2,6 +2,7 @@
 
 var css = require("../lib/css"),
     nopt = require("nopt"),
+    fs = require("fs"),
     knownOpts = {
       "usage" : Boolean
     },
@@ -26,4 +27,14 @@ if (!parsed.argv.remain.length) {
   die("No files specified!");
 }
 
-console.log(parsed);
+function smashFile(file) {
+  fs.readFile(file, function(err, data) {
+    if (err) {
+      throw err;
+    }
+    data = data.toString("utf8");
+    console.log(css.smash(data));
+  });
+}
+
+parsed.argv.remain.forEach(smashFile);
