@@ -3,9 +3,25 @@
 /* lexical grammar */
 %lex
 
+h               [0-9a-fA-F]
+nonascii        [\200-\377]
+nmstart         [_a-zA-Z]|{nonascii}
+nmchar          [_a-zA-Z0-9-]|{nonascii}
+string1         \"([\t !#$%&(-~]|\\{nl}|\'|{nonascii})*\"
+string2         \'([\t !#$%&(-~]|\\{nl}|\"|{nonascii})*\'
+num             [0-9]+|[0-9]*"."[0-9]+
+intnum          [0-9]+
+string          {string1}|{string2}
+url             ([!#$%&*-~]|{nonascii})*
+w               [ \t\r\n\f]*
+nl              \n|\r\n|\r|\f
+range           \?{1,6}|{h}(\?{0,5}|{h}(\?{0,4}|{h}(\?{0,3}|{h}(\?{0,2}|{h}(\??|{h})))))
+nth             [\+-]?{intnum}*n([\t\r\n ]*[\+-][\t\r\n ]*{intnum})?
+
 %%
-\s+					/* ignore whitespace */
-[_a-zA-Z0-9-]+				{ return 'IDENT'; }
+[ \t\r\n\f]+            		{ return 'WHITESPACE'; }
+[a-zA-Z0-9-_]+				{ return 'IDENT'; }
+"#"[a-zA-Z0-9-_]+			{ return 'IDSEL'; }
 \/\*[^*]*\*\/				{ return 'COMMENT'; }
 "{"                             	%{ return '{'; %}
 "}"                             	%{ return '}'; %}
@@ -24,90 +40,145 @@
 
 %% /* language grammar */
 stylesheet
-  : style EOF
+  : maybe_space rule_list EOF
       {
         var stylesheet = new yy.Stylesheet();
-        stylesheet.lines = $1;
+        stylesheet.lines = $2;
         return stylesheet;
       }
   ;
 
-style
-  : line
-      { $$ = [ $1 ]; }
-  | style line
-      { var style = $1; style.push($2); $$ = style; }
+maybe_space
+  : /* empty */
+  | maybe_space WHITESPACE
   ;
 
-line
+rule_list
+  : /* empty */
+  | rule_list rule maybe_space
+      {
+	var style = $1 || [];
+	style.push($2);
+	$$ = style;
+      }
+  ;
+
+rule
+  : valid_rule
+    { $$ = $1; }
+  ;
+
+valid_rule
   : ruleset
     { $$ = $1; }
   | comment
     { $$ = $1; }
   ;
 
-ruleset
-  : selectors '{' declarations '}'
-    { $$ = new yy.Ruleset($1, $3); }
+before_rule_opening_brace
+  : /* empty */
   ;
 
-selectors
+ruleset
+  : selector_list before_rule_opening_brace '{' maybe_space declarations '}'
+    { $$ = new yy.Ruleset($1, $5); }
+  ;
+
+selector_list
   : selector
     { $$ = [ $1 ]; }
-  | selectors ',' selector
-    { var selectors = $1; $1.push($3); $$ = selectors; }
+  | selector_list ',' maybe_space selector
+    { var selector_list = $1; $1.push($4); $$ = selector_list; }
   ;
 
-tag_name
+element_name
   : IDENT
     { $$ = $1; }
   ;
 
-class_name
+class
   : '.' IDENT
     { $$ = "." + $2; }
   ;
 
-id_selector
-  : '#' IDENT
-    { $$ = "#" + $2; }
+specifier
+  : IDSEL
+    { $$ = $1; }
+  | class
+    { $$ = $1; }
   ;
 
-selector_component
-  : tag_name
+specifier_list
+  : specifier
     { $$ = $1; }
-  | class_name
+  | specifier_list specifier
+    { $$ = $1 + $2; }
+  ;
+
+simple_selector
+  : element_name
     { $$ = $1; }
-  | id_selector
+  | element_name specifier_list
+    { $$ = $1 + $2; }
+  | specifier_list
+    { $$ = $1; }
+  ;
+
+selector_with_trailing_whitespace
+  : selector WHITESPACE
     { $$ = $1; }
   ;
 
 selector
-  : selector_component
+  : simple_selector
     { $$ = $1; }
-  | selector selector_component
-    { $$ = $1 + $2 }
+  | selector_with_trailing_whitespace
+    { $$ = $1; }
+  | selector_with_trailing_whitespace simple_selector
+    { $$ = $1 + " " + $2; }
   ;
 
+declaration_with_trailing_whitespace
+  : declaration WHITESPACE
+    { $$ = $1; }
+  ; 
+
 declarations
-  : declaration
-    { $$ = [ $1 ]; }
+  : /* empty */
+    { $$ = [] }
   | declarations declaration
+    { var declerations = $1; declerations.push($2); $$ = declerations; }
+  | declarations declaration_with_trailing_whitespace
     { var declerations = $1; declerations.push($2); $$ = declerations; }
   ;
 
-declaration_values
+term
   : IDENT
+    { $$ = $1; }
+  ;
+
+operator
+  : ',' maybe_space
+    { $$ = "'"; }
+  ;
+
+expr
+  : term
     { $$ = [ $1 ]; }
-  | declaration_values ',' IDENT
-    { var vals = $1; $1.push($3); $$ = vals; }
+  | expr operator term
+    { var expr = $1; expr.push($3); $$ = expr; }
+  ;
+
+property
+  : IDENT maybe_space
+    { $$ = $1; }
   ;
 
 declaration
-  : IDENT ':' declaration_values ';'
-      { $$ = $1 + ":" + $3 + ';'; }
-  | IDENT ':' declaration_values 
-      { $$ = $1 + ":" + $3 + ';'; }
+  : property ':' maybe_space expr ';'
+      { $$ = $1 + ":" + $4 + ';'; }
+  | property ':' maybe_space expr
+      { $$ = $1 + ":" + $4 + ';'; }
   ;
 
 comment

@@ -100,6 +100,13 @@ describe "CSS.parse()", ->
 
     expect(css.parse(raw).lines).toEqual(stylesheet.lines)
 
+  it "should parse a ruleset with an ancestor selector", ->
+    raw = "header h1 { font-weight: bold; }"
+    stylesheet = new Stylesheet
+    stylesheet.addLine(new Ruleset(["header h1"], ["font-weight:bold;"]))
+
+    expect(css.parse(raw).lines).toEqual(stylesheet.lines)
+
   it "should parse a comment", ->
     raw = "/* Blah */"
     stylesheet = new Stylesheet
