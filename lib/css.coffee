@@ -8,15 +8,15 @@ _multi_spaces = /\ +/g
 smash = (raw) ->
 
   lines = raw.replace(_comment, "")
-  lines = lines.replace(_new_line, "\n")
-  lines = lines.replace(_multi_spaces, " ")
   lines = lines.split("\n")
   results = []
   for line in lines
     if _blank_line.test(line)
       continue
     results.push(line)
-  results = results.join("\n")
+  results = results.join(" ")
+  results = results.replace(_new_line, " ")
+  results = results.replace(_multi_spaces, " ")
   results
 exports.smash = smash
 
