@@ -1,6 +1,5 @@
 parser = require('./parser').parser
-
-_comment = /\/\*[^*]*\*+([^/*][^*]*\*+)*\//g
+_comment = /\/\*.*?[^\\]\*\//g
 _new_line = /\n+/g
 _blank_line = /^[ \t\n]*$/
 _multi_spaces = /[\ \t\n]+/g

@@ -22,6 +22,12 @@ describe "CSS.smash()", ->
 
     expect(css.smash(raw)).toEqual(smashed)
 
+  it "shouldn't be confused by comments where the closing asterix is escaped", ->
+    raw = "/* Start comment \\*/b.opera_style{color:black;}\n/* end comment */"
+    smashed = ""
+
+    expect(css.smash(raw)).toEqual(smashed)
+
   it "should remove extra lines breaks", ->
     raw = "p { font-color: red; }\n\n\nh1 { text-decoration: none; }\n\n.my-class { position: absolute: left: 0; }"
     smashed = "p { font-color: red; } h1 { text-decoration: none; } .my-class { position: absolute: left: 0; }"
