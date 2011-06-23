@@ -1,23 +1,16 @@
 parser = require('./parser').parser
 
-_comment = /^\/\*.*\*\//g
+_comment = /\/\*[^*]*\*+([^/*][^*]*\*+)*\//g
 _new_line = /\n+/g
 _blank_line = /^[ \t\n]*$/
-_multi_spaces = /\ +/g
+_multi_spaces = /[\ \t\n]+/g
 
 smash = (raw) ->
-
-  lines = raw.replace(_comment, "")
-  lines = lines.split("\n")
-  results = []
-  for line in lines
-    if _blank_line.test(line)
-      continue
-    results.push(line)
-  results = results.join(" ")
-  results = results.replace(_new_line, " ")
-  results = results.replace(_multi_spaces, " ")
-  results
+  raw = raw.replace(_new_line, " ")
+  raw = raw.replace(_comment, "")
+  raw = raw.replace(_multi_spaces, " ")
+  raw = raw.trim()
+  raw
 exports.smash = smash
 
 class Stylesheet
