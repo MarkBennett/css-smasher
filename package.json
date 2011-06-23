@@ -2,7 +2,7 @@
   "name": "css-smasher",
   "description": "Minimize the size of your CSS without changing it's meaning.",
   "keywords": "css,minify,compress,minimize",
-  "version": "0.0.1",
+  "version": "0.5.0",
   "homepage": "https://github.com/MarkBennett/css-smasher",
   "license": {
     "type":"MIT",

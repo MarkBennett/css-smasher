@@ -1,3 +1,5 @@
+exports.version = "0.5.0"
+
 parser = require('./parser').parser
 _comment = /\/\*.*?[^\\]\*\//g
 _new_line = /\n+/g
