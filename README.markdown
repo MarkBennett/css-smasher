@@ -37,9 +37,22 @@ For full usage do:
 
      css-smash --usage
 
+Development
+-------------
+
+When developing, here are a few things you should know...
+
+ 1. The parser is built from the parser.jison file using "cake build:parser"
+ 2. To update your javascript as you're changing the coffeescript use
+    "cake build:watch"
+
+
 Running the tests
 ------------------
 
 To run the tests you'll need to install the test dependencies (see Installation), then:
 
      cake spec
+
+If your tests are failing you should consider running "cake build" to update
+all dependencies. You can use "cake build:watch" to rebuild while you work.
